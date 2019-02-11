@@ -54,14 +54,27 @@ def load_data(city, month, day):
 # df = load_data('chicago', 'all', 'Thursday')
 
 while True:
-    inputResponse = raw_input("\nWhich city you want to get data for? \
+    cityName = raw_input("\nWhich city you want to get data for? \
     Chicago, Washington, NY \
             \nEnter ch, wd or ny \
             \nExter X to exit")
 
-    if inputResponse == "y":
+    if cityName == "y":
         print("My name is Jaydeep")
-    elif inputResponse == "x":
+    elif cityName == "x":
         break
     else:
         print("====> Invalid input")
+
+while True:
+    print("Which month you want to get data for?")
+    print("Please enter index number.")
+    monthIndex = raw_input("    1. Jan \n\
+    2. Feb \n\
+    3. March \n\
+    4. April \n\
+    5. May \n\
+    6. June")
+
+    # todo: check invalid input
+    print("My month is {} {}".format(monthIndex, cityName))
