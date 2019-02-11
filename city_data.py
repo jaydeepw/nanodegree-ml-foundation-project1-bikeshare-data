@@ -51,5 +51,17 @@ def load_data(city, month, day):
     
     return df
     
-df = load_data('chicago', 'all', 'Thursday')
+# df = load_data('chicago', 'all', 'Thursday')
 
+while True:
+    inputResponse = raw_input("\nWhich city you want to get data for? \
+    Chicago, Washington, NY \
+            \nEnter ch, wd or ny \
+            \nExter X to exit")
+
+    if inputResponse == "y":
+        print("My name is Jaydeep")
+    elif inputResponse == "x":
+        break
+    else:
+        print("====> Invalid input")
