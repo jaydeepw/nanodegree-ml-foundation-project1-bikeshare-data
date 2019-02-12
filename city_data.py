@@ -4,6 +4,10 @@ CITY_DATA = { 'chicago': 'chicago.csv',
               'new york city': 'new_york_city.csv',
               'washington': 'washington.csv' }
 
+CITY_CODES_NAMES = { 'ch': 'Chicago',
+              'ny': 'New York City',
+              'wd': 'Washington' }
+
 def load_data(city, month, day):
     """
     Loads data for the specified city and filters by month and day if applicable.
@@ -50,21 +54,21 @@ def load_data(city, month, day):
         print(df.head(5))
     
     return df
-    
-# df = load_data('chicago', 'all', 'Thursday')
 
 while True:
-    cityName = raw_input("\nWhich city you want to get data for? \
-    Chicago, Washington, NY \
-            \nEnter ch, wd or ny \
-            \nExter X to exit")
+    print("Which city you want to get data for?")
+    cityCodes = CITY_CODES_NAMES.keys()
+    cityNames = CITY_CODES_NAMES.values()
+    for item in range(len(CITY_CODES_NAMES)):
+        print("Enter {} for {}".format(cityCodes[item], cityNames[item]))
+    
+    cityCode = raw_input()
 
-    if cityName == "y":
-        print("My name is Jaydeep")
-    elif cityName == "x":
+    if (cityCode in CITY_CODES_NAMES.keys()):
+        print("Alright, you want to know about {}".format(CITY_CODES_NAMES[cityCode]))
         break
     else:
-        print("====> Invalid input")
+        print("====> Invalid input for city name. Pleas try again.")
 
 while True:
     print("Which month you want to get data for?")
@@ -74,7 +78,40 @@ while True:
     3. March \n\
     4. April \n\
     5. May \n\
-    6. June")
+    6. June \n")
+
+    """
+    print("monthIndex {}".format(monthIndex))
+    print("in range {}".format(monthIndex in range(1, 7)))
+    print(monthIndex >= 1)
+    print(monthIndex < 7)
+    """
+
+    #todo: This is currently not working. fix it.
+    if monthIndex in range(1, 7):
+        print("Month is in range")
+        break
+    else:
+        print("====> Invalid input for month")
+        break
 
     # todo: check invalid input
     print("My month is {} {}".format(monthIndex, cityName))
+
+while True:
+    print("Which day you want to get data for?")
+    print("Please enter index number.")
+    dayIndex = raw_input("    0. Mon \n\
+    1. Tuesday \n\
+    2. Wednesday \n\
+    3. Thursday \n\
+    4. Friday \n\
+    5. Saturday \n\
+    6. Sunday")
+
+    # todo: check invalid input
+    print("My month: {} \n cityName {} \n dayIndex {}".format(monthIndex, cityCode, dayIndex))
+
+
+# Print the statistics
+df = load_data('chicago', 'all', 'Thursday')
