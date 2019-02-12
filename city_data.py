@@ -55,6 +55,27 @@ def load_data(city, month, day):
     
     return df
 
+def get_male_sharer_percentage(df):
+    """
+    Get the approx. percentage of Male participants in the total bike sharing.
+    """
+    try:
+        valueCounts = df['Gender'].value_counts(dropna=True)
+    except KeyError:
+        print("Sorry, gender data not available for this city")
+        return 0
+
+    #print(valueCounts)
+    genderDict = valueCounts.to_dict()
+    #print(genderDict)
+    maleSharers = genderDict['Male']
+    totalSharers = maleSharers + genderDict['Female']
+    # print(totalSharers)
+    percentage = float((maleSharers*100 / totalSharers))
+    return percentage
+
+df = load_data('washington', 'all', 'Thursday')
+
 while True:
     print("Which city you want to get data for?")
     cityCodes = CITY_CODES_NAMES.keys()
@@ -120,12 +141,15 @@ while True:
         break
 
     # todo: check invalid input
-    print("My month: {} \n cityName {} \n dayIndex {}".format(monthIndex, cityCode, dayIndex))
+    print("My city: {} \n month {} \n dayIndex {}".format(cityCode, monthIndex, dayIndex))
 
 
 # Print the statistics
 cityName = CITY_CODES_NAMES[cityCode].lower()
 df = load_data(cityName, 'all', 'Thursday')
 
-#print(df['Gender'].values_counts())
-#print(df['Gender'].values_counts())
+print("Printing analysis")
+percentage = get_male_sharer_percentage(df)
+
+if percentage > 0:
+    print("Approximately {} percent of the total particiapnt are Male".format(percentage))
