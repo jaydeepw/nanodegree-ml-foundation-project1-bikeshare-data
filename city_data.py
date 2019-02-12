@@ -51,7 +51,7 @@ def load_data(city, month, day):
         # filter by day of week to create the new dataframe
         # use .title() to bring them both on same level
         df = df.loc[df['day_of_week'] == day.title()]
-        print(df.head(5))
+        # print(df.head(5))
     
     return df
 
@@ -74,7 +74,22 @@ def get_male_sharer_percentage(df):
     percentage = float((maleSharers*100 / totalSharers))
     return percentage
 
-df = load_data('washington', 'all', 'Thursday')
+def popular_hour_of_the_day(df):
+    """
+    Get the hour of the day which sharing was at peak
+    """
+    # convert the Start Time column to datetime
+    df['Start Time'] = pd.to_datetime(df['Start Time'])
+
+    # extract hour from the Start Time column to create an hour column
+    df['hour'] = df['Start Time'].dt.hour
+    count = df['hour'].value_counts().to_dict()[17]
+    # find the most popular hour
+    popular_hour = df['hour'].mode()[0]
+    return popular_hour, count
+
+df = load_data('chicago', 'all', 'Friday')
+# popular_hour_of_the_day(df)
 
 while True:
     print("Which city you want to get data for?")
@@ -149,7 +164,15 @@ cityName = CITY_CODES_NAMES[cityCode].lower()
 df = load_data(cityName, 'all', 'Thursday')
 
 print("Printing analysis")
+
+# Print percentage if male sharers
 percentage = get_male_sharer_percentage(df)
 
 if percentage > 0:
     print("Approximately {} percent of the total particiapnt are Male".format(percentage))
+
+# Print most popular hour and its count
+popular_hour, count = popular_hour_of_the_day(df)
+
+print("Most popular hour of the day was {}".format(popular_hour))
+print("{} sharings happened during this hour".format(count))
