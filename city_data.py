@@ -93,6 +93,7 @@ while True:
         break
     else:
         print("====> Invalid input for month")
+        #todo remove this break once above if block start working
         break
 
     # todo: check invalid input
@@ -109,9 +110,22 @@ while True:
     5. Saturday \n\
     6. Sunday")
 
+    #todo: This is currently not working. fix it.
+    if dayIndex in range(0, 7):
+        print("Day is in range")
+        break
+    else:
+        print("====> Invalid input for day")
+        #todo remove this break once above if block start working
+        break
+
     # todo: check invalid input
     print("My month: {} \n cityName {} \n dayIndex {}".format(monthIndex, cityCode, dayIndex))
 
 
 # Print the statistics
-df = load_data('chicago', 'all', 'Thursday')
+cityName = CITY_CODES_NAMES[cityCode].lower()
+df = load_data(cityName, 'all', 'Thursday')
+
+#print(df['Gender'].values_counts())
+#print(df['Gender'].values_counts())
