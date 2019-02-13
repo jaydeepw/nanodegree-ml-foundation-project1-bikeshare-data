@@ -88,8 +88,17 @@ def popular_hour_of_the_day(df):
     popular_hour = df['hour'].mode()[0]
     return popular_hour, count
 
-df = load_data('chicago', 'all', 'Friday')
-# popular_hour_of_the_day(df)
+def trip_duration(df):
+    """
+    Get the total trip duration and average trip duration
+    """
+    totalDuration = df['Trip Duration'].sum()
+    numRows = df['Trip Duration'].count()
+    averageDuration = totalDuration / numRows
+    return totalDuration, averageDuration
+
+# df = load_data('washington', 'all', 'Friday')
+# trip_duration(df)
 
 while True:
     print("Which city you want to get data for?")
@@ -176,3 +185,8 @@ popular_hour, count = popular_hour_of_the_day(df)
 
 print("Most popular hour of the day was {}".format(popular_hour))
 print("{} sharings happened during this hour".format(count))
+
+# Print duration stats
+totalDuration, averageDuration = trip_duration(df)
+print("Riders from this city spent a total of {} seconds riding".format(totalDuration))
+print("Average duration of the riders has been {} seconds".format(averageDuration))

@@ -10,6 +10,6 @@ https://review.udacity.com/#!/rubrics/1379/view
 
 ### System requirements
 
-### Getting tarted
+### Getting started
 - Clone this repository and `cd` into it from your terminal
 - On the terminal, write `python city_data.py`
