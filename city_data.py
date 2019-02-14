@@ -84,9 +84,16 @@ def popular_hour_of_the_day(df):
 
     # extract hour from the Start Time column to create an hour column
     df['hour'] = df['Start Time'].dt.hour
-    count = df['hour'].value_counts().to_dict()[17]
+    # print(df['hour'].head())
     # find the most popular hour
-    popular_hour = df['hour'].mode()[0]
+    try: 
+        popular_hour = df['hour'].mode()[0]
+        count = df['hour'].value_counts().to_dict()[popular_hour]
+    except:
+        print("No popular hour found")
+    finally:
+        popular_hour = 0
+        count = 0
     return popular_hour, count
 
 def trip_duration(df):
@@ -95,7 +102,11 @@ def trip_duration(df):
     """
     totalDuration = df['Trip Duration'].sum()
     numRows = df['Trip Duration'].count()
-    averageDuration = totalDuration / numRows
+    if numRows != 0:
+        averageDuration = totalDuration / numRows
+    else:
+        totalDuration = 0
+        averageDuration = 0
     return totalDuration, averageDuration
 
 def show_head_data_conditionally(response, df):
@@ -105,7 +116,7 @@ def show_head_data_conditionally(response, df):
     print(df.head())
 
 # df = load_data('washington', 'all', 'Friday')
-# trip_duration(df)
+# popular_hour_of_the_day(df)
 
 while True:
 
@@ -187,8 +198,9 @@ while True:
     # Print most popular hour and its count
     popular_hour, count = popular_hour_of_the_day(df)
 
-    print("Most popular hour of the day was {}".format(popular_hour))
-    print("{} sharings happened during this hour".format(count))
+    if popular_hour != 0:
+        print("Most popular hour of the day was {}".format(popular_hour))
+        print("{} sharings happened during this hour".format(count))
 
     # Print duration stats
     totalDuration, averageDuration = trip_duration(df)
