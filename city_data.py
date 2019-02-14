@@ -1,4 +1,5 @@
 import pandas as pd
+import calendar
 
 CITY_DATA = { 'chicago': 'chicago.csv',
               'new york city': 'new_york_city.csv',
@@ -7,6 +8,8 @@ CITY_DATA = { 'chicago': 'chicago.csv',
 CITY_CODES_NAMES = { 'ch': 'Chicago',
               'ny': 'New York City',
               'wd': 'Washington' }
+
+MONTHS = ['january', 'february', 'march', 'april', 'may', 'june']
 
 def load_data(city, month, day):
     """
@@ -39,9 +42,7 @@ def load_data(city, month, day):
     # filter by month if applicable
     if month != 'all':
         # use the index of the months list to get the corresponding int
-        months = ['january', 'february', 'march', 'april', 'may', 'june']
-        month = months.index(month)
-        print("month {}".format(month))
+        month = MONTHS.index(month)
 
         # filter by month to create the new dataframe
         df = df.loc[df['month'] == month]
@@ -133,56 +134,49 @@ while True:
     4. April \n\
     5. May \n\
     6. June \n")
-
-        """
-        print("monthIndex {}".format(monthIndex))
-        print("in range {}".format(monthIndex in range(1, 7)))
-        print(monthIndex >= 1)
-        print(monthIndex < 7)
-        """
+        monthIndex = int(monthIndex)
 
         #todo: This is currently not working. fix it.
         if monthIndex in range(1, 7):
-            print("Month is in range")
             break
         else:
             print("====> Invalid input for month")
-            #todo remove this break once above if block start working
-            break
 
         # todo: check invalid input
-        print("My month is {} {}".format(monthIndex, cityName))
+        # print("My month is {} {}".format(monthIndex, cityName))
 
     while True:
         print("Which day you want to get data for?")
         print("Please enter index number.")
-        dayIndex = raw_input("    0. Mon \n\
-        1. Tuesday \n\
-        2. Wednesday \n\
-        3. Thursday \n\
-        4. Friday \n\
-        5. Saturday \n\
-        6. Sunday\n")
+        dayIndex = raw_input("\
+    0. Mon \n\
+    1. Tuesday \n\
+    2. Wednesday \n\
+    3. Thursday \n\
+    4. Friday \n\
+    5. Saturday \n\
+    6. Sunday\n")
+        dayIndex = int(dayIndex)
 
         #todo: This is currently not working. fix it.
         if dayIndex in range(0, 7):
-            print("Day is in range")
             break
         else:
             print("====> Invalid input for day")
-            #todo remove this break once above if block start working
-            break
 
         # todo: check invalid input
-        print("My city: {} \n month {} \n dayIndex {}".format(cityCode, monthIndex, dayIndex))
+        # print("My city: {} \n month {} \n dayIndex {}".format(cityCode, monthIndex, dayIndex))
 
     # calculate the statistics
-    print("Counting stats....")
     cityName = CITY_CODES_NAMES[cityCode].lower()
-    df = load_data(cityName, 'all', 'Thursday')
+    month_name = MONTHS[monthIndex-1]
+    # parse day index to day name
+    day_name = calendar.day_name[dayIndex]
+    print("Counting stats...for {} for month of {} on day {}".format(cityName.title(), month_name.title(), day_name))
+    df = load_data(cityName, month_name, day_name)
 
     # Print the statistics
-    print("Printing analysis")
+    print("Printing analysis...")
 
     # Print percentage if male sharers
     percentage = get_male_sharer_percentage(df)
@@ -204,9 +198,9 @@ while True:
     show_head_data_conditionally(raw_input("See 5 lines of raw data? Enter yes/no \n"), df)
 
     # Outermost big loop counting here
-    print("Do you want more analysis of other cities, months or days?")
+    print("Do you want to do more analysis of other cities, months or days?")
     more_analysis = raw_input("yes/no \n")
     if more_analysis == "no":
         # break top-most while loop
-        print("Thank you for using this tool")
+        print("Thank you for using this tool!")
         break
